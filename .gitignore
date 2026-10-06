@@ -1,0 +1,17 @@
+# Foundry
+contracts/out/
+contracts/cache/
+contracts/lib/
+contracts/broadcast/*/31337/
+contracts/.env
+
+# Web
+web/node_modules/
+web/.next/
+web/.env
+web/.env.local
+web/next-env.d.ts
+
+# Varios
+.env
+.DS_Store
