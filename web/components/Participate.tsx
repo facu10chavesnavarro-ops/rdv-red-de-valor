@@ -17,7 +17,6 @@ const faucetAbi = parseAbi(["function faucet()"]);
 // Valores de respaldo si no se puede estimar el gas (p. ej. comprar antes de autorizar)
 const GAS_APPROVE = 60_000n;
 const GAS_BUY = 230_000n;
-const GAS_DONATE = 120_000n;
 
 type Purchase = { first: number; quantity: number; hash: Hash };
 
@@ -50,7 +49,7 @@ export function Participate() {
   const donateTx = useTx();
 
   const dec = raffle?.decimals ?? 18;
-  const packs = raffle?.packs ?? [];
+  const packs = useMemo(() => raffle?.packs ?? [], [raffle?.packs]);
   const pack = packs[sel];
   const s = raffle?.stats;
   const now = Math.floor(Date.now() / 1000);
@@ -194,7 +193,11 @@ export function Participate() {
 
       {/* Flujo de compra */}
       <div className="card mt-6 p-4 sm:p-6">
-        {!salesOpen ? (
+        {!s ? (
+          <p className="flex items-center gap-2 text-muted">
+            <Spinner /> Leyendo datos del contrato…
+          </p>
+        ) : !salesOpen ? (
           <Notice>La venta está cerrada. Revisá “Mis números” y “Transparencia” para ver el resultado.</Notice>
         ) : !w.isConnected ? (
           <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">

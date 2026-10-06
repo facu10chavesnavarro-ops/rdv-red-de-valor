@@ -6,10 +6,10 @@ const IMAGE = process.env.NEXT_PUBLIC_PRIZE_IMAGE ?? "";
 export function PrizeArt() {
   if (IMAGE) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={IMAGE} alt={config.prizeName} className="mx-auto max-h-[360px] w-auto object-contain" />;
+    return <img src={IMAGE} alt={config.prizeName} className="mx-auto max-h-[170px] w-auto object-contain sm:max-h-[300px] md:max-h-[360px]" />;
   }
   return (
-    <svg viewBox="0 0 240 360" className="mx-auto h-[300px] w-auto sm:h-[360px]" role="img" aria-label={config.prizeName}>
+    <svg viewBox="0 0 240 360" className="mx-auto h-[170px] w-auto sm:h-[300px] md:h-[360px]" role="img" aria-label={config.prizeName}>
       <defs>
         <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stopColor="#2A2F3A" />

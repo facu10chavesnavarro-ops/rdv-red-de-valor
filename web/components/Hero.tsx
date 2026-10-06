@@ -14,7 +14,7 @@ export function Hero() {
   const pct = s && s.goal > 0n ? Number((s.totalRaised * 10000n) / s.goal) / 100 : 0;
 
   return (
-    <section className="mx-auto grid w-full max-w-5xl items-center gap-8 px-4 pb-8 pt-10 md:grid-cols-[1.2fr_1fr] md:pt-16">
+    <section className="mx-auto grid w-full max-w-5xl items-center gap-6 px-4 pb-8 pt-6 md:grid-cols-[1.2fr_1fr] md:pt-16">
       <div className="order-2 md:order-1">
         <p className="label mb-3 flex items-center gap-2">
           <span className="h-2 w-2 animate-pulse rounded-full bg-ok" />
