@@ -14,6 +14,8 @@ const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL || baseChain.rpcUrls.default.http
 export const chain: Chain = {
   ...baseChain,
   name: chainId === foundry.id ? "Anvil (local)" : "BNB Chain Testnet",
+  // En local también mostramos BNB para que la UI se vea igual que en testnet
+  nativeCurrency: chainId === foundry.id ? { name: "BNB", symbol: "BNB", decimals: 18 } : baseChain.nativeCurrency,
   rpcUrls: { default: { http: [rpcUrl] } },
 };
 
