@@ -4,6 +4,7 @@
 #   anvil                                  # en otra terminal
 #   ./simulate-local.sh exito              # meta alcanzada -> sorteo -> retiro a tesorería
 #   ./simulate-local.sh reembolso          # meta no alcanzada -> reembolso
+#   ./simulate-local.sh demo               # despliega y carga compras, sin cerrar (para ver la web)
 # Usa las cuentas de prueba desbloqueadas de anvil (sin claves privadas).
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -33,6 +34,19 @@ for W in $ALICE $BOB; do
   send "$W" "$TOKEN" "faucet()"
   send "$W" "$TOKEN" "approve(address,uint256)" "$RAFFLE" "$(cast max-uint)"
 done
+
+if [ "$MODE" = "demo" ]; then
+  echo "==> Compras de ejemplo (Alice, Bob y Carol)"
+  CAROL=0x90F79bf6EB2c4f870365E785982E1f101E93b906
+  send "$CAROL" "$TOKEN" "faucet()"
+  send "$CAROL" "$TOKEN" "approve(address,uint256)" "$RAFFLE" "$(cast max-uint)"
+  send $ALICE "$RAFFLE" "buyPack(uint8)" 1
+  send $BOB "$RAFFLE" "buyPack(uint8)" 0
+  send $CAROL "$RAFFLE" "donate(uint256)" "$(cast to-wei 1)"
+  echo "    Recaudado: $(fmt "$(call "$RAFFLE" "totalRaised()(uint256)")") USDT | vendidos: $(call "$RAFFLE" "numbersSold()(uint32)")"
+  echo "    Copiá en web/.env.local: NEXT_PUBLIC_RAFFLE_ADDRESS=$RAFFLE NEXT_PUBLIC_TOKEN_ADDRESS=$TOKEN"
+  exit 0
+fi
 
 if [ "$MODE" = "exito" ]; then
   echo "==> Alice compra 7 números (8 USDT), Bob compra 3 (4 USDT) y dona 2"

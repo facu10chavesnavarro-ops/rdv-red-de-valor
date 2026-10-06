@@ -1,0 +1,33 @@
+{
+  "name": "rifa-solidaria-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "sync-abi": "node scripts/sync-abi.mjs",
+    "env:local": "node scripts/env-from-deployment.mjs 31337",
+    "env:testnet": "node scripts/env-from-deployment.mjs 97"
+  },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.11",
+    "@tanstack/react-query": "^5.104.1",
+    "next": "14.2.35",
+    "react": "^18",
+    "react-dom": "^18",
+    "viem": "^2.57.3",
+    "wagmi": "^2.19.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.35",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
