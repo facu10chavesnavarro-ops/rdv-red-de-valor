@@ -17,3 +17,4 @@ web/next-env.d.ts
 .DS_Store
 contracts/deployments/31337.json
 web/tsconfig.tsbuildinfo
+contracts/broadcast/**/dry-run/

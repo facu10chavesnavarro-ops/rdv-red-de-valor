@@ -25,7 +25,7 @@ export const config = {
   raffle: (process.env.NEXT_PUBLIC_RAFFLE_ADDRESS ?? "") as Address,
   token: (process.env.NEXT_PUBLIC_TOKEN_ADDRESS ?? "") as Address,
   deployBlock: BigInt(process.env.NEXT_PUBLIC_DEPLOY_BLOCK ?? 0),
-  logsChunk: BigInt(process.env.NEXT_PUBLIC_LOGS_CHUNK ?? 5000),
+  logsChunk: BigInt(process.env.NEXT_PUBLIC_LOGS_CHUNK ?? 50000),
   explorer: (process.env.NEXT_PUBLIC_EXPLORER_URL ?? "https://testnet.bscscan.com").replace(/\/$/, ""),
   walletConnectProjectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? "",
   tokenSymbol: process.env.NEXT_PUBLIC_TOKEN_SYMBOL ?? "USDT",

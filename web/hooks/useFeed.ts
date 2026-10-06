@@ -42,29 +42,28 @@ export function useFeed() {
     let cancelled = false;
 
     const fetchRange = async (fromBlock: bigint, toBlock: bigint): Promise<FeedItem[]> => {
-      const [buys, donations] = await Promise.all([
-        client.getLogs({ address: config.raffle, event: purchaseEvent, fromBlock, toBlock }),
-        client.getLogs({ address: config.raffle, event: donationEvent, fromBlock, toBlock }),
-      ]);
-      return [
-        ...buys.map((l) => ({
-          kind: "compra" as const,
-          who: l.args.buyer!,
-          amount: l.args.amount!,
-          quantity: Number(l.args.quantity),
-          txHash: l.transactionHash!,
-          blockNumber: l.blockNumber!,
-          logIndex: l.logIndex!,
-        })),
-        ...donations.map((l) => ({
-          kind: "aporte" as const,
-          who: l.args.donor!,
-          amount: l.args.amount!,
-          txHash: l.transactionHash!,
-          blockNumber: l.blockNumber!,
-          logIndex: l.logIndex!,
-        })),
-      ];
+      // Un solo getLogs para ambos eventos (la mitad de pedidos al RPC)
+      const logs = await client.getLogs({ address: config.raffle, events: [purchaseEvent, donationEvent], fromBlock, toBlock });
+      return logs.map((l) =>
+        l.eventName === "Purchase"
+          ? {
+              kind: "compra" as const,
+              who: l.args.buyer!,
+              amount: l.args.amount!,
+              quantity: Number(l.args.quantity),
+              txHash: l.transactionHash!,
+              blockNumber: l.blockNumber!,
+              logIndex: l.logIndex!,
+            }
+          : {
+              kind: "aporte" as const,
+              who: l.args.donor!,
+              amount: l.args.amount!,
+              txHash: l.transactionHash!,
+              blockNumber: l.blockNumber!,
+              logIndex: l.logIndex!,
+            },
+      );
     };
 
     const withTimestamps = async (list: FeedItem[]) => {

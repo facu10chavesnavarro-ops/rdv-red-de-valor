@@ -146,7 +146,7 @@ Para no esperar 7 días, desplegá con un plazo corto: `DURATION_SECONDS=900` (1
 | `NEXT_PUBLIC_TOKEN_ADDRESS` | dirección del token de pago |
 | `NEXT_PUBLIC_DEPLOY_BLOCK` | bloque de despliegue (desde ahí se leen los eventos) |
 | `NEXT_PUBLIC_EXPLORER_URL` | por defecto `https://testnet.bscscan.com` |
-| `NEXT_PUBLIC_LOGS_CHUNK` | tamaño de tramo para `getLogs` (por defecto 5000; bajalo si el RPC lo limita) |
+| `NEXT_PUBLIC_LOGS_CHUNK` | tamaño de tramo para `getLogs` (por defecto 50000, probado con el RPC público de BSC Testnet; bajalo si tu RPC lo limita) |
 | `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | opcional. Habilita MetaMask, Trust y WalletConnect en celulares ([cloud.reown.com](https://cloud.reown.com)) |
 | `NEXT_PUBLIC_PRIZE_NAME` / `NEXT_PUBLIC_PRIZE_IMAGE` | nombre e imagen del premio (por ejemplo `/premio.jpg` en `web/public`) |
 | `NEXT_PUBLIC_AUTHORIZATION_NUMBER` | número de autorización (vacío = "Pendiente") |
