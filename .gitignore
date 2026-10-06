@@ -15,3 +15,4 @@ web/next-env.d.ts
 # Varios
 .env
 .DS_Store
+contracts/deployments/31337.json

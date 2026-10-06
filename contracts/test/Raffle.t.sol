@@ -51,7 +51,7 @@ contract RaffleTest is Test {
                 nativePayment: false
             })
         );
-        vrf.addConsumer(subId, address(r));
+
     }
 
     function _fund(address who) internal {
@@ -82,8 +82,8 @@ contract RaffleTest is Test {
         deadline = uint64(block.timestamp + 7 days);
         usdt = new MockUSDT();
         vrf = new MockVRFCoordinator();
-        subId = vrf.createSubscription();
-        vrf.fundSubscription(subId, 1_000 ether);
+
+
         raffle = _deploy(GOAL, 5_000, 200);
         _fund(alice);
         _fund(bob);
