@@ -97,26 +97,36 @@ Después, en "Transparencia → Verificar sorteo", tocá **Recalcular en mi nave
 
 ## 3. Despliegue en BSC Testnet
 
-1. **Wallet de despliegue solo para testnet.** Importala en el keystore cifrado de Foundry, así la clave no queda en texto plano:
+Son tres pasos:
+
+1. **Wallet de despliegue solo para testnet.** Creala nueva (no uses una wallet con fondos reales) e importala en el keystore
+   cifrado de Foundry, así la clave no queda en texto plano:
    ```bash
    cast wallet import deployer --interactive
    ```
-2. **tBNB:** pedilo en el [faucet de BNB Chain](https://www.bnbchain.org/en/testnet-faucet).
-3. **Suscripción de Chainlink VRF:** en [vrf.chain.link](https://vrf.chain.link), elegí *BNB Chain Testnet*, creá una
-   suscripción, fondeala con tBNB (pago nativo) y copiá el **Subscription ID**.
-   Configuración oficial que usa el script ([docs](https://docs.chain.link/vrf/v2-5/supported-networks)):
-   coordinador `0xDA3b641D438362C440Ac5458c57e00a712b66700`, key hash de 50 gwei
-   `0x8596b430971ac45bdf6088665b9ad8e8630c9d5049ab54b14dff711bee7c0e26`, 3 confirmaciones.
-4. **Configurar y desplegar:**
+2. **tBNB:** pedí al menos 0,1 tBNB para esa dirección en el [faucet de BNB Chain](https://www.bnbchain.org/en/testnet-faucet).
+3. **Desplegar todo con un solo comando** (Git Bash):
    ```bash
    cd contracts
-   cp .env.example .env          # completá VRF_SUBSCRIPTION_ID y, si querés, TREASURY
-   source .env
-   forge script script/Deploy.s.sol --rpc-url bsc_testnet --account deployer --broadcast
+   DURATION_SECONDS=900 ./deploy-testnet.sh     # sin DURATION_SECONDS, la rifa dura 7 días
    ```
-   Si `USDT_ADDRESS` está vacío, el script despliega `MockUSDT`. Las direcciones quedan en `deployments/97.json`.
-5. **Agregar la Raffle como *consumer*** de tu suscripción en vrf.chain.link. **Sin este paso, `requestDraw()` falla.**
-6. (Opcional) Verificar el código en BscScan con `forge verify-contract` y una API key de Etherscan v2.
+   Te pide la contraseña del keystore (no se muestra ni se guarda) y hace lo siguiente:
+   1. crea la suscripción de Chainlink VRF y la fondea con 0,05 tBNB;
+   2. despliega MockUSDT y Raffle;
+   3. agrega la Raffle como *consumer*;
+   4. verifica que todo quede bien;
+   5. genera `web/.env.local`.
+
+   Variables opcionales: `GOAL_USDT`, `TREASURY`, `VRF_FUND_TBNB`, `VRF_SUBSCRIPTION_ID` (para usar una suscripción que ya tengas),
+   `DEPLOYER_ACCOUNT` (si importaste la wallet con otro nombre). Las direcciones quedan en `deployments/97.json`.
+
+Configuración oficial de VRF que usa el script ([docs](https://docs.chain.link/vrf/v2-5/supported-networks)):
+coordinador `0xDA3b641D438362C440Ac5458c57e00a712b66700`, key hash de 50 gwei
+`0x8596b430971ac45bdf6088665b9ad8e8630c9d5049ab54b14dff711bee7c0e26`, 3 confirmaciones, pago en tBNB.
+El flujo completo (suscripción, despliegue, pedido de sorteo al coordinador real, callback y retiro) se probó contra un fork
+de BSC Testnet. El callback usó unos 87.000 de gas, con un límite de 500.000.
+
+(Opcional) Verificar el código en BscScan con `forge verify-contract` y una API key de Etherscan v2.
 
 ### Tokens de prueba
 

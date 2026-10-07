@@ -18,3 +18,4 @@ web/next-env.d.ts
 contracts/deployments/31337.json
 web/tsconfig.tsbuildinfo
 contracts/broadcast/**/dry-run/
+preview/
