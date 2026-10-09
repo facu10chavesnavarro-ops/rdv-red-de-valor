@@ -8,7 +8,7 @@ import {IVRFCoordinatorV2Plus} from
     "@chainlink/contracts/src/v0.8/vrf/dev/interfaces/IVRFCoordinatorV2Plus.sol";
 import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 
-/// @title Raffle — rifa solidaria on-chain
+/// @title Raffle — rifa on-chain de RDV (Red de Valor)
 /// @notice Venta de números por paquetes en un token ERC20 (USDT). Si se alcanza la meta,
 ///         el ganador se elige con Chainlink VRF v2.5 y los fondos van a `treasury`.
 ///         Si no se alcanza, cada wallet recupera exactamente lo que aportó.

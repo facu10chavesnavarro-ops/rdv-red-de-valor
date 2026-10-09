@@ -2,77 +2,46 @@
 
 import { useState, type ReactNode } from "react";
 import { chain, config } from "@/lib/config";
+import type { ArtKind } from "@/lib/content";
+import { Art } from "./Art";
 import { Section } from "./ui";
-
-/* ---------- ilustraciones simples (SVG inline, sin imágenes externas) ---------- */
-
-const Ico = ({ children }: { children: ReactNode }) => (
-  <svg viewBox="0 0 64 64" className="h-14 w-14 shrink-0" aria-hidden fill="none" stroke="currentColor" strokeWidth="2.5">
-    {children}
-  </svg>
-);
-
-const WalletArt = () => (
-  <Ico>
-    <rect x="8" y="16" width="48" height="34" rx="6" className="text-accent" />
-    <path d="M40 30h16v10H40a5 5 0 0 1 0-10Z" className="text-accent" />
-    <circle cx="42" cy="35" r="1.8" fill="currentColor" className="text-accent" />
-    <path d="M14 16l26-8 4 8" className="text-muted" />
-  </Ico>
-);
-
-const ExchangeArt = () => (
-  <Ico>
-    <circle cx="20" cy="32" r="12" className="text-muted" />
-    <text x="20" y="37" textAnchor="middle" fontSize="13" fill="currentColor" stroke="none" className="text-muted">$</text>
-    <circle cx="44" cy="32" r="12" className="text-accent" />
-    <text x="44" y="37" textAnchor="middle" fontSize="11" fill="currentColor" stroke="none" className="text-accent">₮</text>
-    <path d="M28 18c4-4 10-4 14 0M36 46c-4 4-10 4-14 0" className="text-ink" />
-  </Ico>
-);
-
-const NetworkArt = () => (
-  <Ico>
-    <circle cx="32" cy="14" r="6" className="text-accent" />
-    <circle cx="14" cy="48" r="6" className="text-muted" />
-    <circle cx="50" cy="48" r="6" className="text-muted" />
-    <path d="M29 19 17 43M35 19l12 24M20 48h24" className="text-ink" />
-  </Ico>
-);
 
 function Steps({ items }: { items: ReactNode[] }) {
   return (
-    <ol className="mt-4 space-y-3 text-sm">
+    <ol className="mt-1 space-y-3 text-sm">
       {items.map((it, i) => (
         <li key={i} className="flex gap-3">
           <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-line font-mono text-xs text-accent">
             {i + 1}
           </span>
-          <span className="text-muted">{it}</span>
+          <span>{it}</span>
         </li>
       ))}
     </ol>
   );
 }
 
-function Guide({ art, title, intro, children, open = false }: { art: ReactNode; title: string; intro: string; children: ReactNode; open?: boolean }) {
+/** Guía con formato de tarjeta de blog: arte, etiqueta, título, bajada y botón "Leer". */
+function Guide({ art, meta, title, intro, children }: { art: ArtKind; meta: string; title: string; intro: string; children: ReactNode }) {
+  const [open, setOpen] = useState(false);
   return (
-    <details className="card group p-4 sm:p-5" open={open}>
-      <summary className="flex cursor-pointer list-none items-center gap-4">
-        {art}
-        <div className="flex-1">
-          <h3 className="font-semibold">{title}</h3>
-          <p className="text-sm text-muted">{intro}</p>
-        </div>
-        <span className="text-muted transition group-open:rotate-180">⌄</span>
-      </summary>
-      {children}
-    </details>
+    <article className="card grid content-start gap-3 p-3">
+      <div className="relative aspect-video overflow-hidden rounded-[10px]">
+        <Art kind={art} />
+      </div>
+      <p className="kicker px-1.5">{meta}</p>
+      <h3 className="px-1.5 text-[17px] font-semibold">{title}</h3>
+      <p className="px-1.5 text-sm text-muted">{intro}</p>
+      {open && <div className="px-1.5 pb-1">{children}</div>}
+      <button type="button" className="pill-ghost w-full border-[#c8e9b4]" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+        {open ? "Cerrar" : "Leer"}
+      </button>
+    </article>
   );
 }
 
 const Warn = ({ children }: { children: ReactNode }) => (
-  <p className="mt-4 rounded-lg border border-accent/40 bg-accent-soft px-3 py-2 text-sm text-accent">{children}</p>
+  <p className="mt-4 rounded-xl border border-accent/40 bg-accent-soft px-3.5 py-2.5 text-sm text-ink">{children}</p>
 );
 const B = ({ children }: { children: ReactNode }) => <strong className="text-ink">{children}</strong>;
 
@@ -103,7 +72,7 @@ function Calculator() {
   const fmt = (n: number) => n.toLocaleString("es-AR", { maximumFractionDigits: 2 });
 
   return (
-    <div className="card p-4 sm:p-5">
+    <div className="card p-5 sm:p-6">
       <h3 className="font-semibold">¿Cuánto me llega realmente?</h3>
       <p className="mt-1 text-sm text-muted">
         Al retirar USDT del exchange a tu wallet, el exchange cobra una comisión de retiro. Fijate cuánto es en la pantalla de retiro y
@@ -141,13 +110,14 @@ function Calculator() {
 
 export function Academy() {
   return (
-    <Section id="primeros-pasos" kicker="Academia" title="Primeros pasos">
-      <p className="-mt-2 mb-6 max-w-2xl text-muted">
-        ¿Nunca usaste cripto? Estas tres guías cortas te explican lo necesario para participar de forma segura.
-      </p>
-
-      <div className="grid gap-4">
-        <Guide art={<WalletArt />} title="1. Crear una wallet de forma segura" intro="Tu wallet es tu cuenta: solo vos la controlás." open>
+    <Section
+      id="primeros-pasos"
+      kicker="Academia"
+      title="Primeros pasos"
+      intro="¿Nunca usaste cripto? Estas tres guías cortas te explican lo necesario para participar de forma segura."
+    >
+      <div className="grid items-start gap-4 md:grid-cols-3">
+        <Guide art="wallet" meta="Guía 1 · 3 min" title="Crear una wallet de forma segura" intro="Tu wallet es tu cuenta: solo vos la controlás.">
           <Steps
             items={[
               <>
@@ -168,8 +138,9 @@ export function Academy() {
         </Guide>
 
         <Guide
-          art={<ExchangeArt />}
-          title="2. Comprar USDT y retirarlo por la red BNB Chain (BEP-20)"
+          art="exchange"
+          meta="Guía 2 · 4 min"
+          title="Comprar USDT y retirarlo por la red BNB Chain (BEP-20)"
           intro="Cómo pasar de pesos a USDT en tu wallet."
         >
           <Steps
@@ -199,8 +170,9 @@ export function Academy() {
         </Guide>
 
         <Guide
-          art={<NetworkArt />}
-          title="3. Cómo participar y qué hacer si te equivocás de red"
+          art="network"
+          meta="Guía 3 · 3 min"
+          title="Cómo participar y qué hacer si te equivocás de red"
           intro="El paso a paso de la compra y cómo resolver el error más común."
         >
           <Steps
@@ -216,7 +188,7 @@ export function Academy() {
               </>,
             ]}
           />
-          <div className="mt-5 space-y-2 text-sm text-muted">
+          <div className="mt-5 space-y-2 text-sm">
             <p className="font-semibold text-ink">¿Retiraste por otra red?</p>
             <p>
               Si elegiste otra red compatible con direcciones “0x” (por ejemplo Ethereum o Polygon), los USDT están en tu misma
@@ -229,7 +201,8 @@ export function Academy() {
             </p>
           </div>
         </Guide>
-
+      </div>
+      <div className="mt-4">
         <Calculator />
       </div>
     </Section>

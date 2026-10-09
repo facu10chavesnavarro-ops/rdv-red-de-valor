@@ -21,6 +21,8 @@ Nada de esto está hecho. **No desplegar en mainnet ni usar dinero real** hasta 
 ## Legal
 - [ ] **Revisión legal en Argentina:** autorización de la rifa ante el organismo competente (lotería provincial o el que corresponda), número de autorización en el footer, tratamiento impositivo de los aportes y del premio, y normativa de defensa del consumidor y de activos virtuales.
 - [ ] Términos y condiciones y política de privacidad publicados (`NEXT_PUBLIC_TERMS_URL`).
+- [ ] **"Sin fines de lucro":** la web hoy dice "lo recaudado no se reparte entre socios". Antes de afirmar "sin fines de lucro" como estatus, confirmar la figura jurídica (asociación civil, fundación u otra) con un abogado.
+- [ ] **Destino de las donaciones (50/25/25):** el contrato envía todo a la tesorería; el reparto lo ejecuta el equipo. Definir el procedimiento y publicar cada transferencia de la tesorería a los proyectos con su comprobante, como promete la web.
 - [ ] Revisión de la redacción: no presentar los aportes como inversión ni prometer rendimientos.
 
 ## Web

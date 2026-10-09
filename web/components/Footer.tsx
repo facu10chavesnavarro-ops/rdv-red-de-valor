@@ -1,4 +1,6 @@
 import { config } from "@/lib/config";
+import { BRAND } from "@/lib/content";
+import { Logo } from "./Header";
 
 const SOCIAL = [
   ["Instagram", config.social.instagram],
@@ -9,25 +11,31 @@ const SOCIAL = [
 export function Footer() {
   const socials = SOCIAL.filter(([, url]) => url);
   return (
-    <footer className="mt-8 border-t border-line bg-surface">
-      <div className="mx-auto grid max-w-5xl gap-6 px-4 py-10 text-sm md:grid-cols-3">
-        <div className="space-y-3 md:col-span-2">
-          <p className="rounded-lg border border-bad/40 bg-bad/10 px-3 py-2 text-bad">
-            <strong>Nunca te vamos a pedir tu frase semilla</strong> ni tus claves privadas, por ningún medio. Si alguien te las pide
-            en nuestro nombre, es una estafa.
+    <footer id="contacto" className="mt-10 scroll-mt-20 border-t border-line bg-surface">
+      <div className="mx-auto grid max-w-6xl gap-8 px-5 py-11 md:grid-cols-[1.4fr_1fr]">
+        <div className="grid content-start gap-3">
+          <div className="mb-1 flex items-center gap-2.5">
+            <Logo className="h-8 w-8" />
+            <span className="font-bold text-ink">
+              {BRAND.short} <span className="font-normal text-muted">· {BRAND.name}</span>
+            </span>
+          </div>
+          <p className="rounded-xl border border-bad/45 bg-bad/10 px-3.5 py-3 text-sm text-[#ffb3bb]">
+            <strong>Nunca te vamos a pedir tu frase semilla</strong> ni tus claves privadas, por ningún medio. Si alguien te las pide en
+            nuestro nombre, es una estafa.
           </p>
           {config.isTestnet && (
-            <p className="rounded-lg border border-accent/40 bg-accent-soft px-3 py-2 text-accent">
+            <p className="rounded-xl border border-accent/35 bg-accent-soft px-3.5 py-3 text-sm text-ink">
               Versión de prueba en testnet: los tokens que se usan acá no tienen valor y esta rifa no entrega premios reales.
             </p>
           )}
-          <p className="text-muted">
-            Los aportes se destinan a financiar los proyectos tecnológicos de la empresa. Las reglas de la rifa están programadas en un
-            contrato inteligente público y no pueden modificarse.
+          <p className="text-sm text-muted">
+            Lo recaudado no se reparte entre socios: financia proyectos tecnológicos, sociales y ambientales y el sostenimiento del
+            ecosistema. Las reglas de la rifa están programadas en un contrato inteligente público y no pueden modificarse.
           </p>
         </div>
 
-        <div className="space-y-3 text-muted">
+        <div className="grid content-start gap-5">
           <div>
             <p className="label">Autorización</p>
             <p className="font-mono text-ink">{config.authorizationNumber || "Pendiente"}</p>
@@ -43,24 +51,24 @@ export function Footer() {
             )}
           </div>
           <div>
-            <p className="label">Contacto</p>
+            <p className="label">Seguinos</p>
             {socials.length ? (
-              <ul className="flex flex-wrap gap-3">
+              <div className="mt-2 flex flex-wrap gap-2">
                 {socials.map(([name, url]) => (
-                  <li key={name}>
-                    <a className="link" href={url} target="_blank" rel="noreferrer">
-                      {name}
-                    </a>
-                  </li>
+                  <a key={name} className="pill-ghost pill-sm" href={url} target="_blank" rel="noreferrer">
+                    {name}
+                  </a>
                 ))}
-              </ul>
+              </div>
             ) : (
               <p>Nuestras redes, próximamente</p>
             )}
           </div>
         </div>
       </div>
-      <p className="border-t border-line py-4 text-center text-xs text-muted">Rifa solidaria on-chain · MVP</p>
+      <p className="border-t border-line py-4 text-center font-mono text-xs tracking-[0.08em] text-muted">
+        {BRAND.short} · {BRAND.name.toUpperCase()} · MVP
+      </p>
     </footer>
   );
 }

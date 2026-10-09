@@ -171,7 +171,7 @@ export function VerifyDraw({ raffle }: { raffle: RaffleData }) {
         </div>
       </dl>
 
-      <button className="btn-accent w-full sm:w-auto" disabled={running} onClick={verify}>
+      <button className="pill-solid w-full sm:w-auto" disabled={running} onClick={verify}>
         {running && <Spinner />} Recalcular en mi navegador
       </button>
       {error && <Notice tone="error">{error}</Notice>}

@@ -1,18 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { DM_Mono, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 
-const sans = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const sans = Instrument_Sans({ subsets: ["latin"], variable: "--font-sans" });
+const mono = DM_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "Rifa solidaria on-chain",
+  title: "RDV · Red de Valor",
   description:
-    "Rifa transparente en BNB Chain: aportá para financiar los proyectos tecnológicos de la empresa y participá por un iPhone. Sorteo verificable con Chainlink VRF.",
+    "Tecnología con impacto, financiada por la comunidad. Participá por un iPhone en una rifa on-chain en BNB Chain: cada aporte financia proyectos tecnológicos, sociales y ambientales, y el sorteo se verifica con Chainlink VRF.",
 };
 
-export const viewport: Viewport = { themeColor: "#0B0E11", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#060807", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

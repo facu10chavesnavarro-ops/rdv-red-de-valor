@@ -10,31 +10,69 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-ticker {
+    animation: none !important;
+  }
+}
+
 body {
-  @apply bg-bg text-ink font-sans antialiased;
+  @apply bg-bg font-sans text-body antialiased;
+}
+
+h1,
+h2,
+h3 {
+  @apply text-ink;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+:focus-visible {
+  outline: 2px solid #a6ff3d;
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
 @layer components {
   .card {
-    @apply rounded-xl border border-line bg-surface;
+    @apply rounded-2xl border border-line bg-surface;
   }
-  .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition
-      disabled:cursor-not-allowed disabled:opacity-50;
-  }
-  .btn-accent {
-    @apply btn bg-accent text-bg hover:brightness-110;
-  }
-  .btn-ghost {
-    @apply btn border border-line text-ink hover:border-muted;
+  .kicker {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent;
   }
   .label {
-    @apply text-xs uppercase tracking-wider text-muted;
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-muted;
+  }
+  .tag {
+    @apply rounded-full border border-dashed border-line px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-muted;
+  }
+  .pill {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full border border-transparent px-5 py-3 text-[15px] font-semibold leading-none transition
+      hover:-translate-y-px disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:translate-y-0;
+  }
+  .pill-solid {
+    @apply pill bg-accent text-accent-ink hover:brightness-110;
+  }
+  .pill-outline {
+    @apply pill border-accent bg-transparent text-accent;
+  }
+  .pill-ghost {
+    @apply pill border-[#3a463b] bg-transparent text-ink hover:border-muted;
+  }
+  .pill-sm {
+    @apply px-3.5 py-2 text-[13px];
   }
   .link {
     @apply text-accent underline-offset-2 hover:underline;
   }
   .input {
-    @apply w-full rounded-lg border border-line bg-bg px-3 py-2.5 font-mono text-sm outline-none focus:border-accent;
+    @apply w-full rounded-[10px] border border-line bg-bg px-3.5 py-3 font-mono text-base text-ink outline-none focus:border-accent;
+  }
+  .section {
+    @apply mx-auto w-full max-w-6xl scroll-mt-20 px-5 py-16 sm:py-20;
   }
 }

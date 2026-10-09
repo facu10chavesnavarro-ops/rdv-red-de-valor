@@ -21,7 +21,7 @@ const GAS_BUY = 230_000n;
 type Purchase = { first: number; quantity: number; hash: Hash };
 
 function StepBadge({ n, status, done }: { n: number; status: TxStatus; done: boolean }) {
-  if (done || status === "success") return <span className="grid h-6 w-6 place-items-center rounded-full bg-ok text-xs text-bg">✓</span>;
+  if (done || status === "success") return <span className="grid h-6 w-6 place-items-center rounded-full bg-accent text-xs text-accent-ink">✓</span>;
   if (status === "wallet" || status === "pending") return <span className="grid h-6 w-6 place-items-center text-accent"><Spinner /></span>;
   return <span className="grid h-6 w-6 place-items-center rounded-full border border-line font-mono text-xs">{n}</span>;
 }
@@ -152,9 +152,14 @@ export function Participate() {
   };
 
   return (
-    <Section id="participar" kicker="Participar" title="Elegí tu paquete">
+    <Section
+      id="participar"
+      kicker="Participar"
+      title="Elegí tu paquete"
+      intro="Cuantos más números llevás, menos pagás por cada uno. Tus números son consecutivos y quedan registrados a tu nombre en el contrato."
+    >
       {/* Paquetes */}
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3.5 md:grid-cols-4">
         {packs.map((p, i) => {
           const active = i === sel;
           return (
@@ -167,23 +172,23 @@ export function Participate() {
                 buyTx.reset();
                 approveTx.reset();
               }}
-              className={`card relative p-4 text-left transition ${active ? "border-accent ring-1 ring-accent" : "hover:border-muted"}`}
+              className={`card relative grid gap-1 px-5 py-6 text-left transition hover:-translate-y-0.5 ${active ? "border-accent shadow-[inset_0_0_0_1px_#a6ff3d,0_0_40px_-18px_#a6ff3d]" : "hover:border-[#3a463b]"}`}
               aria-pressed={active}
             >
               {i === RECOMMENDED && (
-                <span className="absolute -top-2.5 left-3 rounded bg-accent px-2 py-0.5 text-[10px] font-bold uppercase text-bg">
+                <span className="absolute -top-2.5 left-4 rounded-full bg-accent px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-accent-ink">
                   Recomendado
                 </span>
               )}
-              <p className="font-mono text-3xl font-bold">{p.quantity}</p>
+              <p className="font-mono text-[40px] font-medium leading-none text-ink">{p.quantity}</p>
               <p className="text-sm text-muted">{p.quantity === 1 ? "número" : "números"}</p>
-              <p className="mt-3 font-mono text-lg">
+              <p className="mt-3.5 font-mono text-lg text-ink">
                 {fmtToken(p.price, dec)} <span className="text-sm text-muted">{config.tokenSymbol}</span>
               </p>
               <p className="text-xs text-muted">
                 {fmtToken(p.price / BigInt(p.quantity), dec)} por número
               </p>
-              <p className={`mt-2 text-xs font-semibold ${savings[i]?.save ? "text-ok" : "text-transparent"}`}>
+              <p className={`mt-2.5 font-mono text-xs ${savings[i]?.save ? "text-accent" : "text-transparent"}`}>
                 {savings[i]?.save ? `Ahorrás ${fmtToken(savings[i].save, dec)} ${config.tokenSymbol} (${savings[i].pct}%)` : "—"}
               </p>
             </button>
@@ -192,7 +197,7 @@ export function Participate() {
       </div>
 
       {/* Flujo de compra */}
-      <div className="card mt-6 p-4 sm:p-6">
+      <div className="card mt-4 p-5 sm:p-6">
         {!s ? (
           <p className="flex items-center gap-2 text-muted">
             <Spinner /> Leyendo datos del contrato…
@@ -204,7 +209,7 @@ export function Participate() {
             <p className="text-muted">Conectá tu wallet para participar. ¿No tenés una? Mirá “Primeros pasos” más abajo.</p>
             <ConnectButton.Custom>
               {({ openConnectModal }) => (
-                <button className="btn-accent" onClick={openConnectModal}>
+                <button className="pill-solid" onClick={openConnectModal}>
                   Conectar wallet
                 </button>
               )}
@@ -213,7 +218,7 @@ export function Participate() {
         ) : w.wrongNetwork ? (
           <div className="flex flex-col gap-3">
             <Notice tone="error">Tu wallet está en otra red. Para participar tenés que usar {chain.name}.</Notice>
-            <button className="btn-accent self-start" disabled={switching} onClick={() => switchChain({ chainId: config.chainId })}>
+            <button className="pill-solid self-start" disabled={switching} onClick={() => switchChain({ chainId: config.chainId })}>
               {switching && <Spinner />} Cambiar a {chain.name}
             </button>
             {switchError && <p className="text-sm text-bad">No se pudo cambiar de red. Hacelo manualmente desde tu wallet.</p>}
@@ -250,7 +255,7 @@ export function Participate() {
                 <div className="space-y-3">
                   <Notice tone="error">No tenés suficientes {config.tokenSymbol} para este paquete.</Notice>
                   {config.isTestnet && (
-                    <button className="btn-ghost w-full" disabled={faucetTx.busy} onClick={faucet}>
+                    <button className="pill-ghost w-full" disabled={faucetTx.busy} onClick={faucet}>
                       {faucetTx.busy && <Spinner />} Pedir 1.000 {config.tokenSymbol} de prueba
                     </button>
                   )}
@@ -269,7 +274,7 @@ export function Participate() {
                       <p className="text-xs text-muted">Permite que el contrato cobre solo este monto.</p>
                     </div>
                     {needsApprove && (
-                      <button className="btn-ghost" disabled={approveTx.busy} onClick={approve}>
+                      <button className="pill-ghost" disabled={approveTx.busy} onClick={approve}>
                         Autorizar
                       </button>
                     )}
@@ -280,7 +285,7 @@ export function Participate() {
                       <p className="text-sm font-medium">Comprar</p>
                       <p className="text-xs text-muted">Se te asignan números consecutivos.</p>
                     </div>
-                    <button className="btn-accent" disabled={needsApprove || buyTx.busy || approveTx.busy} onClick={buy}>
+                    <button className="pill-solid" disabled={needsApprove || buyTx.busy || approveTx.busy} onClick={buy}>
                       Comprar
                     </button>
                   </div>
@@ -296,8 +301,8 @@ export function Participate() {
               )}
 
               {result && (
-                <div className="rounded-lg border border-ok/40 bg-ok/10 p-4">
-                  <p className="font-semibold text-ok">¡Listo! Tu compra quedó registrada.</p>
+                <div className="rounded-lg border border-accent/40 bg-accent-soft p-4">
+                  <p className="font-semibold text-accent">¡Listo! Tu compra quedó registrada.</p>
                   <p className="mt-2 text-sm">
                     Tus números:{" "}
                     <span className="font-mono font-bold">
@@ -329,12 +334,12 @@ export function Participate() {
               value={donation}
               onChange={(e) => setDonation(e.target.value)}
             />
-            <button className="btn-ghost" disabled={donateTx.busy || donationAmount < 10n ** BigInt(dec)} onClick={donate}>
+            <button className="pill-ghost" disabled={donateTx.busy || donationAmount < 10n ** BigInt(dec)} onClick={donate}>
               {donateTx.busy && <Spinner />} Aportar
             </button>
           </div>
           {txHint(donateTx.status) && <p className="mt-2 text-sm text-muted">{txHint(donateTx.status)}</p>}
-          {donateTx.status === "success" && <p className="mt-2 text-sm text-ok">¡Gracias por tu aporte!</p>}
+          {donateTx.status === "success" && <p className="mt-2 text-sm text-accent">¡Gracias por tu aporte!</p>}
           {donateTx.error && <p className="mt-2 text-sm text-bad">{donateTx.error}</p>}
         </details>
       )}

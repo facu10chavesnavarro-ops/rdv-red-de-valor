@@ -45,7 +45,7 @@ export function MyNumbers() {
           <p className="text-muted">Conectá tu wallet para ver tus números.</p>
           <ConnectButton.Custom>
             {({ openConnectModal }) => (
-              <button className="btn-ghost" onClick={openConnectModal}>
+              <button className="pill-ghost" onClick={openConnectModal}>
                 Conectar wallet
               </button>
             )}
@@ -103,7 +103,7 @@ export function MyNumbers() {
               <p className="font-semibold">No se alcanzó la meta: podés recuperar tu aporte completo.</p>
               {w.paid && w.paid > 0n ? (
                 <>
-                  <button className="btn-accent" disabled={refund.busy || w.wrongNetwork} onClick={claim}>
+                  <button className="pill-solid" disabled={refund.busy || w.wrongNetwork} onClick={claim}>
                     {refund.busy && <Spinner />} Reclamar {fmtToken(w.paid, dec)} {config.tokenSymbol}
                   </button>
                   {w.wrongNetwork && <p className="text-sm text-bad">Cambiá tu wallet a la red correcta para reclamar.</p>}

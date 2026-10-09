@@ -14,7 +14,7 @@ export function Countdown({ deadline }: { deadline?: number }) {
   }, []);
 
   if (!deadline || now === null) {
-    return <div className="h-[72px]" aria-hidden />;
+    return <div className="h-[66px]" aria-hidden />;
   }
 
   const left = Math.max(0, Math.floor(deadline - now));
@@ -29,11 +29,11 @@ export function Countdown({ deadline }: { deadline?: number }) {
   ] as const;
 
   return (
-    <div className="flex gap-2" aria-label="Tiempo restante">
+    <div className="flex gap-2" aria-label="Tiempo restante de la venta">
       {parts.map(([v, l]) => (
-        <div key={l} className="min-w-[64px] rounded-lg border border-line bg-raised px-2 py-2 text-center">
-          <div className="font-mono text-2xl font-bold tabular-nums">{pad(v)}</div>
-          <div className="text-[10px] uppercase tracking-wider text-muted">{l}</div>
+        <div key={l} className="min-w-[62px] rounded-xl border border-line bg-surface/75 px-2 py-2.5 text-center sm:min-w-[70px]">
+          <div className="font-mono text-[22px] font-medium tabular-nums text-ink sm:text-[26px]">{pad(v)}</div>
+          <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">{l}</div>
         </div>
       ))}
     </div>

@@ -61,12 +61,12 @@ function PublicActions() {
   };
 
   return (
-    <div className="card mt-4 space-y-2 p-4">
+    <div className="card mt-4 space-y-2 p-5">
       <p className="label">Acción pública disponible</p>
       <p className="text-sm text-muted">
         {action.help} Cualquier persona puede ejecutarla (paga solo la comisión de red); el contrato decide qué se puede hacer.
       </p>
-      <button className="btn-ghost" disabled={!w.isConnected || w.wrongNetwork || tx.busy} onClick={run}>
+      <button className="pill-ghost" disabled={!w.isConnected || w.wrongNetwork || tx.busy} onClick={run}>
         {tx.busy && <Spinner />} {action.label}
       </button>
       {!w.isConnected && <p className="text-xs text-muted">Conectá una wallet para ejecutarla.</p>}
@@ -80,6 +80,63 @@ function PublicActions() {
   );
 }
 
+const WHY = [
+  {
+    title: "Trazabilidad",
+    text: "Cada compra, aporte y transferencia queda registrada con fecha y comprobante. Se puede seguir desde el origen hasta su destino.",
+    icon: (
+      <>
+        <circle cx="10" cy="24" r="5" />
+        <circle cx="38" cy="10" r="5" />
+        <circle cx="38" cy="38" r="5" />
+        <path d="M15 22l18-10M15 26l18 10" />
+      </>
+    ),
+  },
+  {
+    title: "Descentralización",
+    text: "No depende de nosotros: el contrato corre en miles de nodos y nadie puede pausarlo, frenarlo ni quedarse con los fondos.",
+    icon: (
+      <>
+        <rect x="6" y="6" width="12" height="12" rx="2" />
+        <rect x="30" y="6" width="12" height="12" rx="2" />
+        <rect x="6" y="30" width="12" height="12" rx="2" />
+        <rect x="30" y="30" width="12" height="12" rx="2" />
+        <path d="M18 12h12M18 36h12M12 18v12M36 18v12" />
+      </>
+    ),
+  },
+  {
+    title: "Transparencia",
+    text: "Cualquiera puede ver el contrato, los aportes y el sorteo, y recalcular el resultado en su propio navegador.",
+    icon: (
+      <>
+        <path d="M4 24s7-13 20-13 20 13 20 13-7 13-20 13S4 24 4 24z" />
+        <circle cx="24" cy="24" r="6" />
+      </>
+    ),
+  },
+];
+
+function WhyBlockchain() {
+  return (
+    <div className="grid border-y border-line md:grid-cols-3">
+      {WHY.map((w, i) => (
+        <div
+          key={w.title}
+          className={`grid justify-items-center gap-3 px-7 py-8 text-center ${i ? "border-t border-line md:border-l md:border-t-0" : ""}`}
+        >
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.6" className="h-11 w-11 text-accent" aria-hidden>
+            {w.icon}
+          </svg>
+          <h3 className="text-lg font-semibold">{w.title}</h3>
+          <p className="max-w-[34ch] text-[15px]">{w.text}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function Transparency() {
   const { raffle } = useRaffle();
   const s = raffle?.stats;
@@ -87,10 +144,16 @@ export function Transparency() {
   const goal = s ? `${fmtToken(s.goal, dec)} ${config.tokenSymbol}` : "la meta";
 
   return (
-    <Section id="transparencia" kicker="Transparencia" title="Reglas claras, verificables por cualquiera">
-      <div className="grid gap-6 lg:grid-cols-2">
+    <Section
+      id="transparencia"
+      kicker="Transparencia"
+      title="¿Por qué en blockchain?"
+      intro="Las reglas de la rifa están programadas en un contrato público. No hay administrador que pueda cambiarlas ni mover los fondos de otra forma."
+    >
+      <WhyBlockchain />
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <div className="space-y-4">
-          <div className="card space-y-3 p-4 text-sm">
+          <div className="card space-y-3 p-5 text-sm">
             <div>
               <p className="label">Contrato de la rifa</p>
               <div className="mt-1 flex items-center gap-2">
@@ -118,7 +181,7 @@ export function Transparency() {
             </div>
           </div>
 
-          <ol className="card list-decimal space-y-3 p-4 pl-9 text-sm text-muted marker:font-mono marker:text-accent">
+          <ol className="card list-decimal space-y-3 p-5 pl-10 text-sm text-body marker:font-mono marker:text-accent">
             <li>
               <span className="text-ink">Cada compra te asigna números consecutivos</span> (#0000, #0001…). Quedan registrados en el
               contrato a tu nombre.

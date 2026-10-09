@@ -1,37 +1,61 @@
 import { config } from "@/lib/config";
+import { Art } from "./Art";
+import { Arrow } from "./ui";
 
 const IMAGE = process.env.NEXT_PUBLIC_PRIZE_IMAGE ?? "";
 
-/** Imagen del premio. Si no se configura NEXT_PUBLIC_PRIZE_IMAGE, muestra una ilustración genérica. */
-export function PrizeArt() {
+function Phone() {
   if (IMAGE) {
     // eslint-disable-next-line @next/next/no-img-element
-    return <img src={IMAGE} alt={config.prizeName} className="mx-auto max-h-[170px] w-auto object-contain sm:max-h-[300px] md:max-h-[360px]" />;
+    return <img src={IMAGE} alt={config.prizeName} className="mx-auto max-h-[300px] w-auto object-contain" />;
   }
   return (
-    <svg viewBox="0 0 240 360" className="mx-auto h-[170px] w-auto sm:h-[300px] md:h-[360px]" role="img" aria-label={config.prizeName}>
+    <svg viewBox="0 0 220 330" className="mx-auto h-[230px] w-auto sm:h-[290px]" role="img" aria-label={config.prizeName}>
       <defs>
-        <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#2A2F3A" />
-          <stop offset="0.55" stopColor="#151A22" />
-          <stop offset="1" stopColor="#3A2E0F" />
+        <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#1c241c" />
+          <stop offset=".6" stopColor="#0d120e" />
+          <stop offset="1" stopColor="#2a4a10" />
         </linearGradient>
-        <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="#F3BA2F" stopOpacity="0.35" />
-          <stop offset="1" stopColor="#F3BA2F" stopOpacity="0" />
-        </radialGradient>
       </defs>
-      <ellipse cx="120" cy="190" rx="120" ry="170" fill="url(#glow)" />
-      <rect x="40" y="20" width="160" height="320" rx="30" fill="#0E1116" stroke="#3A4250" strokeWidth="3" />
-      <rect x="49" y="29" width="142" height="302" rx="22" fill="url(#screen)" />
-      <rect x="95" y="38" width="50" height="14" rx="7" fill="#0B0E11" />
-      <text x="120" y="160" textAnchor="middle" fontFamily="monospace" fontSize="13" fill="#8A94A6">
+      <rect x="10" y="6" width="200" height="318" rx="34" fill="#0b0f0c" stroke="#3b473c" strokeWidth="3" />
+      <rect x="20" y="16" width="180" height="298" rx="26" fill="url(#scr)" />
+      <rect x="82" y="26" width="56" height="16" rx="8" fill="#060807" />
+      <text x="110" y="150" textAnchor="middle" fontFamily="monospace" fontSize="12" fill="#7d8b7f">
         #0000 – #4999
       </text>
-      <text x="120" y="190" textAnchor="middle" fontFamily="sans-serif" fontWeight="700" fontSize="22" fill="#F3BA2F">
+      <text x="110" y="182" textAnchor="middle" fontFamily="sans-serif" fontWeight="600" fontSize="26" fill="#a6ff3d">
         {config.prizeName}
       </text>
-      <rect x="198" y="90" width="4" height="40" rx="2" fill="#3A4250" />
     </svg>
+  );
+}
+
+/** Tarjeta grande del premio. */
+export function PrizeFeature() {
+  return (
+    <section className="mx-auto w-full max-w-6xl px-5 pt-16 sm:pt-20" aria-labelledby="premio-t">
+      <article className="relative grid min-h-[360px] items-center overflow-hidden rounded-2xl border border-line bg-surface md:grid-cols-[1.15fr_.85fr]">
+        <Art kind="prize" />
+        <div className="relative grid max-w-[560px] gap-4 p-6 pt-8 sm:p-12">
+          <p className="kicker">Premio</p>
+          <h2 id="premio-t" className="text-[clamp(1.7rem,3.4vw,2.5rem)] font-semibold leading-[1.1]">
+            Un {config.prizeName} para el número que elija Chainlink
+          </h2>
+          <p>
+            Comprá números con USDT en BNB Chain. Al cerrar la venta, Chainlink VRF genera un número aleatorio que nadie puede predecir
+            ni cambiar, y el contrato elige al ganador a la vista de todos.
+          </p>
+          <div>
+            <a href="#participar" className="pill-solid">
+              Elegí tu paquete <Arrow />
+            </a>
+          </div>
+        </div>
+        <div className="relative px-6 pb-8 md:p-8">
+          <Phone />
+        </div>
+      </article>
+    </section>
   );
 }

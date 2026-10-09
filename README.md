@@ -1,6 +1,13 @@
-# Rifa solidaria on-chain (MVP)
+# RDV · Red de Valor — rifa on-chain (MVP)
 
-Rifa transparente en BNB Chain: se compran números con USDT, el progreso se ve en vivo y el ganador lo elige
+**Tecnología con impacto, financiada por la comunidad.** RDV financia proyectos tecnológicos (seguridad urbana con
+GPS + IA, aeroespacial, RWA para el campo y la ciudad), iniciativas sociales y ambientales, y el sostenimiento del
+ecosistema a través de una rifa transparente en BNB Chain.
+
+Destino de lo recaudado (editable en `web/lib/content.ts`): **50 %** proyectos tecnológicos · **25 %** impacto social y
+ambiental · **25 %** ecosistema e infraestructura. Lo recaudado no se reparte entre socios.
+
+Se compran números con USDT, el progreso se ve en vivo y el ganador lo elige
 **Chainlink VRF v2.5**. Si no se alcanza la meta, cada persona recupera exactamente lo que aportó.
 
 > ⚠️ **Solo testnet.** Este MVP está pensado para BSC Testnet (chainId 97) y para pruebas locales con anvil.

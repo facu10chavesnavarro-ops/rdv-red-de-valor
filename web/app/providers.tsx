@@ -25,9 +25,9 @@ const ANVIL_TEST_ACCOUNT = "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc";
 const anvilWallet = (): Wallet => ({
   id: "anvil-test",
   name: "Cuenta de prueba (anvil)",
-  iconBackground: "#F3BA2F",
+  iconBackground: "#a6ff3d",
   iconUrl:
-    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'><rect width='28' height='28' rx='6' fill='%23F3BA2F'/><text x='14' y='19' font-size='14' text-anchor='middle' font-family='monospace' fill='%230B0E11'>A</text></svg>",
+    "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'><rect width='28' height='28' rx='6' fill='%23a6ff3d'/><text x='14' y='19' font-size='14' text-anchor='middle' font-family='monospace' fill='%230B0E11'>A</text></svg>",
   createConnector: (details: WalletDetailsParams) =>
     createConnector((cfg) => ({ ...mock({ accounts: [ANVIL_TEST_ACCOUNT], features: { reconnect: true } })(cfg), ...details })),
 });
@@ -36,7 +36,7 @@ const isLocal = chain.id === foundry.id;
 // Con WalletConnect projectId: MetaMask, Trust, WalletConnect (móvil). Sin él: solo wallets del navegador.
 const wagmiConfig = config.walletConnectProjectId
   ? getDefaultConfig({
-      appName: "Rifa solidaria",
+      appName: "RDV · Red de Valor",
       projectId: config.walletConnectProjectId,
       chains: [chain],
       transports,
@@ -47,7 +47,7 @@ const wagmiConfig = config.walletConnectProjectId
       chains: [chain],
       transports,
       connectors: connectorsForWallets([{ groupName: "Wallets", wallets: isLocal ? [injectedWallet, anvilWallet] : [injectedWallet] }], {
-        appName: "Rifa solidaria",
+        appName: "RDV · Red de Valor",
         projectId: "none",
       }),
       ssr: true,
@@ -61,7 +61,7 @@ export function Providers({ children }: { children: ReactNode }) {
         <RainbowKitProvider
           locale="es-419"
           initialChain={chain}
-          theme={darkTheme({ accentColor: "#F3BA2F", accentColorForeground: "#0B0E11", borderRadius: "medium" })}
+          theme={darkTheme({ accentColor: "#a6ff3d", accentColorForeground: "#081204", borderRadius: "medium" })}
         >
           {children}
         </RainbowKitProvider>
